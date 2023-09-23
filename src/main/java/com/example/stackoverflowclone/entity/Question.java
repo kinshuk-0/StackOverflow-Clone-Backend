@@ -3,15 +3,17 @@ package com.example.stackoverflowclone.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 
+@Data
 @Entity
 @Table(name = "questions")
-public class Questions {
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long question_id;
+    @Column(name = "question_id")
+    private Long questionId;
 
     private String title;
     private String body;
