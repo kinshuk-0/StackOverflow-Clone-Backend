@@ -35,6 +35,7 @@ public class QuestionsController {
         question.setTitle(postQuestionRequest.getTitle());
         question.setBody(postQuestionRequest.getBody());
         question.setUser(user.get());
+        question.setTags(postQuestionRequest.getTags());
 
         questionService.postQuestion(question);
 

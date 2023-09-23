@@ -34,7 +34,6 @@ public class AnswersController {
 
     @PostMapping("/post")
     public ResponseEntity<?> postQuestion(@RequestBody PostAnswerRequest postAnswerRequest) {
-        // Check if the user with the given userId exists
         Optional<User> user = userRepository.findById(postAnswerRequest.getUserId());
         Optional<Question> question = questionRepository.findById(postAnswerRequest.getQuestionId());
 

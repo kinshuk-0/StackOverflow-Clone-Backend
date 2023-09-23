@@ -18,6 +18,9 @@ public class Question {
     private String title;
     private String body;
 
+    @ElementCollection(targetClass = String.class)
+    private List<String> tags;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
