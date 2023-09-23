@@ -1,5 +1,6 @@
 package com.example.stackoverflowclone.controller;
 
+import com.example.stackoverflowclone.dto.AcceptAnswerRequest;
 import com.example.stackoverflowclone.dto.PostAnswerRequest;
 import com.example.stackoverflowclone.dto.PostQuestionRequest;
 import com.example.stackoverflowclone.entity.Answer;
@@ -9,14 +10,13 @@ import com.example.stackoverflowclone.repository.AnswerRepository;
 import com.example.stackoverflowclone.repository.QuestionRepository;
 import com.example.stackoverflowclone.repository.UserRepository;
 import com.example.stackoverflowclone.service.AnswerService;
+import com.example.stackoverflowclone.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +31,9 @@ public class AnswersController {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private QuestionService questionService;
 
     @PostMapping("/post")
     public ResponseEntity<?> postQuestion(@RequestBody PostAnswerRequest postAnswerRequest) {
@@ -52,5 +55,31 @@ public class AnswersController {
         Answer savedQuestion = answerService.postAnswer(answer);
 
         return ResponseEntity.ok(savedQuestion);
+    }
+
+    @PutMapping("/accept")
+    public ResponseEntity<?> markAnswerAsAccepted(
+            @RequestBody AcceptAnswerRequest acceptAnswerRequest
+            ) {
+        Question question = questionService.getQuestionById(acceptAnswerRequest.getQuestionId());
+        Answer answer = answerService.getAnswerById(acceptAnswerRequest.getAnswerId());
+
+        if(question == null) {
+            return new ResponseEntity<>("Invalid question id", HttpStatus.NOT_ACCEPTABLE);
+        }
+        if(answer == null) {
+            return new ResponseEntity<>("Invalid answer id", HttpStatus.NOT_ACCEPTABLE);
+        }
+        if(!Objects.equals(answer.getQuestion().getQuestionId(), question.getQuestionId())) {
+            return new ResponseEntity<>("Invalid ids", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        question.setAcceptedAnswer(answer.getAnswerId());
+        questionService.editQuestion(question);
+
+        answer.setAccepted(true);
+        answerService.editAnswer(answer);
+
+        return ResponseEntity.ok("Answer marked as accepted");
     }
 }

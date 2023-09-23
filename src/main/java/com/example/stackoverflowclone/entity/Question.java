@@ -18,6 +18,9 @@ public class Question {
     private String title;
     private String body;
 
+    @Column(name = "accepted_answer")
+    private Long acceptedAnswer;
+
     @ElementCollection(targetClass = String.class)
     private List<String> tags;
 
