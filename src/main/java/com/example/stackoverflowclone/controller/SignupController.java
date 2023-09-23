@@ -20,8 +20,8 @@ public class SignupController {
     @PostMapping("/signup")
     public ResponseEntity<?> createUser(@RequestBody SignupDTO signupDTO) {
 
-        if(userService.hasUserWithEmail(signupDTO.getEmail())) {
-            return new ResponseEntity<>("Email already registered", HttpStatus.NOT_ACCEPTABLE);
+        if(userService.hasUserWithUsername(signupDTO.getUsername())) {
+            return new ResponseEntity<>("Username already taken", HttpStatus.NOT_ACCEPTABLE);
         }
         UserDTO createdUser = userService.createUser(signupDTO);
 
