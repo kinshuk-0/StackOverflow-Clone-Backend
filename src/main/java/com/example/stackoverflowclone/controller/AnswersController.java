@@ -2,11 +2,9 @@ package com.example.stackoverflowclone.controller;
 
 import com.example.stackoverflowclone.dto.AcceptAnswerRequest;
 import com.example.stackoverflowclone.dto.PostAnswerRequest;
-import com.example.stackoverflowclone.dto.PostQuestionRequest;
 import com.example.stackoverflowclone.entity.Answer;
 import com.example.stackoverflowclone.entity.Question;
 import com.example.stackoverflowclone.entity.User;
-import com.example.stackoverflowclone.repository.AnswerRepository;
 import com.example.stackoverflowclone.repository.QuestionRepository;
 import com.example.stackoverflowclone.repository.UserRepository;
 import com.example.stackoverflowclone.service.AnswerService;
